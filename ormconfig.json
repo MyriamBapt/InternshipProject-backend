@@ -1,0 +1,12 @@
+{
+  "migrationsRun": true,
+  "migrationsTableName": "migrations",
+  "entities": ["src/find-profs/entities/**/*.ts"],
+  "migrations": ["src/find-profs/migrations/**/*.ts"],
+  "subscribers": ["src/find-profs/subscribers/**/*.ts"],
+  "cli": {
+    "entitiesDir": "src/find-profs/entities",
+    "migrationsDir": "src/find-profs/migrations",
+    "subscribersDir": "src/find-profs/subscribers"
+  }
+}
