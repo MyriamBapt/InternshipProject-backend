@@ -32,13 +32,13 @@ export class Review {
 
   @ManyToOne(
     () => User,
-    (user) => user.rendezVous
+    (user) => user.review
   )
   public user: User;
 
   @ManyToOne(
     () => Professional,
-    (professional) => professional.rendezVous
+    (professional) => professional.review
   )
   public professional: Professional;
 
