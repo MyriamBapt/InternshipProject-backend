@@ -11,7 +11,7 @@ export class ProfessionalService {
     private readonly profRepo: Repository<Professional>
   ) {}
 
-  async findAllProfessionals(): Promise<Professional[]> {
+  async findAllProfessionals(): Promise<Professional[] | undefined> {
     const allProfs = await this.profRepo.find();
 
     if (!allProfs) {

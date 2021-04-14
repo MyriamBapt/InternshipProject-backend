@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Param, Query, Req } from "@nestjs/common";
+import { Body, Controller, Get, Param } from "@nestjs/common";
 import { ProfessionalService } from './professional.service';
 import { Professional } from "../entities/Professional";
-import { Request } from "@nestjs/common";
 
 @Controller('professional')
 export class ProfessionalController {
