@@ -1,7 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { InsertResult, Repository } from "typeorm";
+import {validate} from "class-validator";
+
 import { Professional } from "../entities/Professional";
-import { Repository } from "typeorm";
+import { ProfessionnalDto } from "../model/professionnal.dto";
 
 @Injectable()
 export class ProfessionalService {
@@ -67,7 +70,7 @@ export class ProfessionalService {
     if (!prof) {
       throw new HttpException({
         status: HttpStatus.NOT_FOUND,
-        error: `The professional's id ${id} was not found`,
+        error: `The professional with id ${id} was not found`,
       }, HttpStatus.NOT_FOUND);
     }
 
@@ -91,6 +94,25 @@ export class ProfessionalService {
     }
 
     return  prof;
+  }
+
+  async addNewProfessional(professional: ProfessionnalDto): Promise<Professional | undefined> {
+    const addedProf = await this.profRepo
+      .create({
+          first_name: professional.firstName,
+          last_name: professional.lastName,
+          email: professional.email,
+          phone: professional.phone,
+          city: professional.city,
+          occupation: professional.occupation,
+          years_activity: professional.yearsActivity,
+          specs: professional.specs,
+          first_meeting_price: professional.firstMeetingPrice,
+          followup_meeting_price: professional.followupMeetingPrice,
+          avatar_url: professional.avatarUrl
+        });
+
+    return await this.profRepo.save(addedProf);
   }
 
 }
