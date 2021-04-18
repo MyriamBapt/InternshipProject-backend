@@ -5,6 +5,7 @@ import {validate} from "class-validator";
 
 import { Professional } from "../entities/Professional";
 import { ProfessionnalDto } from "../model/professionnal.dto";
+import { Review } from "../entities/Review";
 
 @Injectable()
 export class ProfessionalService {
@@ -43,6 +44,30 @@ export class ProfessionalService {
     return allProfs;
   }
 
+  async findAllProfsWithReview2(): Promise<Professional[] | undefined> {
+    const allProfs = await this.profRepo
+      .query('select p.*, r.*, count(r.id) as total_reviews\n' +
+        'from professionals p\n' +
+        'left join reviews r on p.id = r."professionalId"\n' +
+        'group by p.id\n' +
+        'order by total_reviews desc');
+
+      /*.createQueryBuilder('professional')
+      .addSelect("count(reviews.id) as reviews_total")
+      .leftJoinAndSelect("professional.review", "review")
+      .groupBy("professional.id")
+      .getRawMany();*/
+
+    if (!allProfs) {
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        error: 'The professional was not found baby!!',
+      }, HttpStatus.NOT_FOUND);
+    }
+
+    return allProfs;
+  }
+
   async findProfById(id: number): Promise<Professional | undefined> {
     const prof = await this.profRepo
       .createQueryBuilder('professional')
@@ -64,6 +89,7 @@ export class ProfessionalService {
     const prof = await this.profRepo
       .createQueryBuilder('professional')
       .leftJoinAndSelect("professional.review", "review")
+      .innerJoinAndSelect("review.user", "user")
       .where("professional.id = :id", { id: id })
       .getOne();
 
@@ -112,12 +138,20 @@ export class ProfessionalService {
           avatar_url: professional.avatarUrl
         });
 
+    const errors =await validate(addedProf);
+    if (errors.length > 0) {
+      throw new HttpException( {
+        status: HttpStatus.BAD_REQUEST,
+        error: errors[0].constraints,
+      }, HttpStatus.BAD_REQUEST);
+    }
+
     return await this.profRepo.save(addedProf);
   }
 
 }
 
-
+// error: ValidationError
 
 
 

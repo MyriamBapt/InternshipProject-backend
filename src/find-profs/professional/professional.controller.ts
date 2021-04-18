@@ -21,6 +21,11 @@ export class ProfessionalController {
     return await this.professionalService.findAllProfsWithReview();
   }
 
+  @Get('all_with_review2')
+  async getAllProfsWithReview2(): Promise<Professional[]> {
+    return await this.professionalService.findAllProfsWithReview2();
+  }
+
   @Get('one_by_id/:id')
   async getProfById(
       @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }))
@@ -46,6 +51,7 @@ export class ProfessionalController {
 
  @Post('post_new_prof')
   async postNewProf(@Body() body): Promise<Professional> {
+
     const {
       firstName, lastName, email, phone, city,
       occupation, yearsActivity, specs,
