@@ -19,84 +19,52 @@ import { Review } from "./Review";
 export class Professional {
 
   @PrimaryGeneratedColumn()
-  @IsInt()
-  @IsPositive()
   id: number;
 
-  @Column({
-    type: "varchar",
-    length: 50,
-    nullable: false
-  })
-  @IsString()
-  @MinLength(3)
-  @MaxLength(50)
+  @Column({ nullable: false })
+  @IsString({ message: 'Only characters allowed for first name',})
+  @MinLength(3, { message: 'First name contains min 3 characters',})
+  @MaxLength(50, { message: 'First name contains max 50 characters',})
   first_name: string;
 
-  @Column({
-    type: "varchar",
-    length: 80,
-    nullable: false
-  })
-  @IsString()
-  @MinLength(3)
-  @MaxLength(80)
+  @Column({ nullable: false })
+  @IsString({ message: 'Only characters allowed for last name',})
+  @MinLength(3, { message: 'Last name contains min 3 characters',})
+  @MaxLength(80, { message: 'Last name contains max 80 characters',})
   last_name: string;
 
-  @Column({
-    type: "varchar",
-    length: 80,
-    nullable: false,
-    unique: true
-  })
+  @Column({ nullable: false })
   @IsEmail()
   @MaxLength(80)
   email: string;
 
-  @Column({
-    type: "varchar",
-    length: 10,
-    nullable: false,
-    unique: true
-  })
+  @Column({ nullable: false })
   @IsString()
-  @MinLength(10)
-  @MaxLength(10)
+  @MinLength(10, { message: 'Phone contains 10 characters',})
+  @MaxLength(10, { message: 'Phone contains 10 characters',})
   @IsMobilePhone()
   phone: string;
 
-  @Column({
-    type: "varchar",
-    length: 100,
-    nullable: false
-  })
+  @Column({ nullable: false })
   @IsString()
-  @MinLength(2)
-  @MaxLength(100)
+  @MinLength(2, { message: 'City contains min 2 characters',})
+  @MaxLength(100, { message: 'City contains max 100 characters',})
   city: string;
 
-  @Column({
-    type: "varchar",
-    length: 100,
-    nullable: false
-  })
+  @Column({ nullable: false })
   @IsString()
-  @MinLength(2)
-  @MaxLength(100)
+  @MinLength(2, { message: 'Occupation contains min 2 characters',})
+  @MaxLength(100, { message: 'Occupation contains max 100 characters',})
   occupation: string;
 
-  @Column({
-    type: "int",
-    nullable: false
-  })
+  @Column({ nullable: false })
   @IsInt()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Years of activity can not be empty',})
   years_activity: number;
 
   @Column({
+    nullable: false,
     type: "varchar",
-    length: 40,
-    nullable: true,
     array: true
   })
   @IsArray()
@@ -104,30 +72,25 @@ export class Professional {
 
   @Column({
     type: "money",
-    nullable: false
+    nullable: false,
   })
   @Min(5)
   @Max(200)
-  @IsCurrency()
   first_meeting_price: number;
 
   @Column({
     type: "money",
-    nullable: false
+    nullable: false,
   })
   @Min(5)
   @Max(200)
-  @IsCurrency()
   followup_meeting_price: number;
 
   @Column({
-    type: "varchar",
-    length: 100,
-    nullable: false
+    nullable: true,
   })
-  @IsNotEmpty()
-  @IsString()
-  @IsFQDN()
+  @Min(5, { message: 'avatar url contains min 5 characters',})
+  @Max(200, { message: 'avatar url contains max 200 characters',})
   avatar_url: string;
 
   @OneToMany(
