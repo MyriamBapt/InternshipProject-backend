@@ -104,6 +104,8 @@ update professionals set specs = '{"kind", "friendly", "good looking", "openmind
 delete from professionals where id = 10 or id = 14 or id = 15;
 
 
+-------------------------------------------------------------------------------
+
 
 
 
