@@ -128,13 +128,13 @@ export class ProfessionalService {
 
     console.log(baseQuery);
 
-    if (!prof) {
+    if (prof.length == 0) {
       throw new HttpException( {
         status: HttpStatus.NOT_FOUND,
         error: `The professional's name ${name} was not found`
       }, HttpStatus.NOT_FOUND);
     }
-
+    console.log(prof);
     return  prof;
   }
 
