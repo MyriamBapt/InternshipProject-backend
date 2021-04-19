@@ -134,7 +134,7 @@ export class ProfessionalService {
         error: `The professional's name ${name} was not found`
       }, HttpStatus.NOT_FOUND);
     }
-    console.log(prof);
+
     return  prof;
   }
 
