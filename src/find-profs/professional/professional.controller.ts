@@ -43,10 +43,12 @@ export class ProfessionalController {
   }
 
 
-  @Get('one_by_name_with_review')
-  async getProfByFirstLastNameWithReview(@Body() body): Promise<Professional> {
-    const { firstName, lastName } = body;
-    return await this.professionalService.findProfByFirstLastName(firstName, lastName);
+  @Get('by_name_with_review/:name')
+  async getProfByFirstLastNameWithReview(
+    @Param('name') name: string
+  ): Promise<Professional[]> {
+
+    return await this.professionalService.findProfByFirstLastName(name);
   }
 
  @Post('post_new_prof')
