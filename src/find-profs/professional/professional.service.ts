@@ -1,11 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { InsertResult, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import {validate} from "class-validator";
 
 import { Professional } from "../entities/Professional";
 import { ProfessionnalDto } from "../model/professionnal.dto";
-import { Review } from "../entities/Review";
 
 @Injectable()
 export class ProfessionalService {
@@ -104,23 +103,41 @@ export class ProfessionalService {
   }
 
 
-  async findProfByFirstLastName(firstName: string, lastName: string): Promise<Professional | undefined> {
-    const prof = await this.profRepo
-      .createQueryBuilder('professional')
-      .innerJoinAndSelect("professional.review", "review")
-      .where("professional.first_name = :firstname", { firstname : firstName })
-      .andWhere("professional.last_name = :lastname", { lastname : lastName })
-      .getOne();
+  async findProfByFirstLastName(name: string): Promise<Professional[] | undefined> {
+    let prof :Professional[]
+
+    let baseQuery = `select distinct p.*
+                    from professionals p
+                    join reviews r on p.id = r."professionalId" `;
+
+    if ( name.trim().indexOf(' ') > 0 ) {
+      const nameArray = name.split(' ');
+      const [paramOne,paramTwo] = nameArray;
+
+      baseQuery += `where lower(p.first_name) like '%${ paramOne.toLowerCase() }%'
+                    or lower(p.first_name) like '%${ paramTwo.toLowerCase() }%'
+                  or lower(p.last_name) like '%${ paramTwo.toLowerCase() }%'
+                  or lower(p.last_name) like '%${ paramOne.toLowerCase() }%'`;
+    } else {
+      baseQuery += `where lower(p.first_name) like '%${ name.trim().toLowerCase() }%'
+                  or lower(p.last_name) like '%${ name.trim().toLowerCase() }%'`;
+    }
+
+    prof = await this.profRepo
+      .query(baseQuery);
+
+    console.log(baseQuery);
 
     if (!prof) {
       throw new HttpException( {
         status: HttpStatus.NOT_FOUND,
-        error: `The professional's name ${firstName} was not found`
+        error: `The professional's name ${name} was not found`
       }, HttpStatus.NOT_FOUND);
     }
 
     return  prof;
   }
+
 
   async addNewProfessional(professional: ProfessionnalDto): Promise<Professional | undefined> {
     const addedProf = await this.profRepo
