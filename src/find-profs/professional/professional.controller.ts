@@ -47,7 +47,7 @@ export class ProfessionalController {
   async getProfByFirstLastNameWithReview(
     @Param('name') name: string
   ): Promise<Professional[]> {
-
+    console.log(`--------------  Param name: ${name}`);
     return await this.professionalService.findProfByFirstLastName(name);
   }
 
