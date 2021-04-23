@@ -11,6 +11,7 @@ import { Professional } from "./entities/Professional";
 import { User } from "./entities/User";
 import { RendezVous } from "./entities/RendezVous";
 import { Review } from "./entities/Review";
+import { UserWeight } from './entities/UserWeight';
 
 
 @Module({
@@ -27,7 +28,8 @@ import { Review } from "./entities/Review";
       Professional,
       User,
       RendezVous,
-      Review
+      Review,
+      UserWeight
     ],
     synchronize: Boolean(process.env.DB_SYNC)
     }),
