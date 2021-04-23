@@ -1,6 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { RendezVous } from "./RendezVous";
 import { Review } from "./Review";
+import { UserWeight } from './UserWeight';
+import { Type } from 'class-transformer';
+import { IsDate } from 'class-validator';
 
 @Entity('users')
 export class User {
@@ -10,17 +13,17 @@ export class User {
 
   @Column({
     type: "varchar",
-    length: 50,
+    length: 80,
     nullable: false
   })
-  first_name: string;
+  name: string;
 
   @Column({
     type: "varchar",
     length: 80,
     nullable: false
   })
-  last_name: string;
+  surname: string;
 
   @Column({
     type: "varchar",
@@ -31,29 +34,128 @@ export class User {
   email: string;
 
   @Column({
+    type: "varchar",
+    length: 80,
+    nullable: false,
+    unique: true
+  })
+  pseudo: string;
+
+  @Column({
+    type: "varchar",
+    length: 80,
+    nullable: false,
+  })
+  password: string;
+
+  @Column({
+    type: "timestamptz",
+    nullable: false
+  })
+  @Type(() => Date)
+  @IsDate()
+  created_at: Date;
+
+  @Column({
+    type: "timestamptz",
+    nullable: false
+  })
+  @Type(() => Date)
+  @IsDate()
+  updated_at: Date;
+
+  @Column({
     type: "float",
     nullable: false,
   })
   height: number;
 
   @Column({
-    type: "float",
-    nullable: false,
+    type: 'integer',
+    nullable: true,
   })
-  weight: number;
-
-  @Column({
-    type: "text",
-    nullable: false,
-  })
-  other_info: string;
+  gender: number;
 
   @Column({
     type: "varchar",
     length: 80,
+    nullable: false,
+  })
+  one_signal_player_id: string;
+
+  @Column({
+    type: "varchar",
+    length: 80,
+    nullable: false,
+  })
+  auth_method: string;
+
+  @Column({
+    type: "varchar",
+    length: 150,
     nullable: false
   })
-  avatar_url: string;
+  photo_id: string;
+
+  @Column({
+    type: "timestamptz",
+    nullable: false
+  })
+  @Type(() => Date)
+  @IsDate()
+  birth_date: Date;
+
+  @Column({
+    type: 'boolean',
+    nullable: false,
+  })
+  profile_completed: boolean;
+
+  @Column({
+    type: 'boolean',
+    nullable: false,
+  })
+  from_firebase: boolean;
+
+  @Column({
+    type: "timestamptz",
+    nullable: false
+  })
+  @Type(() => Date)
+  @IsDate()
+  last_connection: Date;
+
+  @Column({
+    type: "float",
+    nullable: false,
+  })
+  target_weight: number;
+
+  @Column({
+    type: "float",
+    nullable: false,
+  })
+  original_weight: number;
+
+  @Column({
+    type: "float",
+    nullable: false,
+  })
+  target_loose_weight: number;
+
+  @Column({
+    type: "varchar",
+    length: 150,
+    nullable: false,
+  })
+  fb_id: string;
+
+  @Column({
+    type: "varchar",
+    length: 150,
+    nullable: false,
+  })
+  apple_id: string;
 
   @OneToMany(
     ()=> RendezVous,
@@ -65,6 +167,12 @@ export class User {
     ()=> Review,
     (review) => review.user
   )
-  public review: RendezVous[];
+  public review: Review[];
+
+  @OneToMany(
+    ()=> UserWeight,
+    (userWeight) => userWeight.user
+  )
+  public userWeight: UserWeight[];
 
 }
