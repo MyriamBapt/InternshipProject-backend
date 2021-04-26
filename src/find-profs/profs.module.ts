@@ -12,6 +12,8 @@ import { User } from "./entities/User";
 import { RendezVous } from "./entities/RendezVous";
 import { Review } from "./entities/Review";
 import { UserWeight } from './entities/UserWeight';
+import { Tag } from './entities/Tag';
+import { Language } from './entities/Language';
 
 
 @Module({
@@ -29,7 +31,9 @@ import { UserWeight } from './entities/UserWeight';
       User,
       RendezVous,
       Review,
-      UserWeight
+      UserWeight,
+      Tag,
+      Language
     ],
     synchronize: Boolean(process.env.DB_SYNC)
     }),
