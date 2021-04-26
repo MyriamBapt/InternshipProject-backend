@@ -14,6 +14,8 @@ import {
 
 import { RendezVous } from "./RendezVous";
 import { Review } from "./Review";
+import { Tag } from './Tag';
+import { Language } from './Language';
 
 @Entity('professionals')
 export class Professional {
@@ -93,6 +95,12 @@ export class Professional {
   @Max(200, { message: 'avatar url contains max 200 characters',})
   avatar_url: string;
 
+  @Column({ nullable: false })
+  @IsString()
+  @MinLength(10, { message: 'Description contains min 10 characters',})
+  @MaxLength(200, { message: 'Description contains max 200 characters',})
+  description: string;
+
   @OneToMany(
     () => RendezVous,
     (rendezVous) => rendezVous.professional
@@ -104,5 +112,17 @@ export class Professional {
     (review) => review.professional
   )
   public review: Review;
+
+  @OneToMany(
+    () => Tag,
+    (tag) => tag.professional
+  )
+  public tag: Tag;
+
+  @OneToMany(
+    () => Language,
+    (language) => language.professional
+  )
+  public language: Language;
 
 }
