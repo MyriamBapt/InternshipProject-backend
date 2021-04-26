@@ -12,4 +12,5 @@ export class ProfessionnalDto {
   firstMeetingPrice: number;
   followupMeetingPrice: number;
   avatarUrl: string;
+  description: string;
 }
