@@ -25,8 +25,9 @@ export class UserService {
 
   async findAllUsersWithWeight(): Promise<User[] | undefined>{
     const allUsersWithWeight = await this.userRepo
-      .query('select * from users \n'+
-    'inner join user_weight on users.id = user_weight."userId"')
+      .createQueryBuilder('user')
+      .leftJoinAndSelect("user.userWeight", "userWeight")
+      .getMany();
 
     if (!allUsersWithWeight){
       throw new HttpException({
@@ -57,7 +58,6 @@ export class UserService {
     const userWeightById = await this.userRepo
       .createQueryBuilder('user')
       .leftJoinAndSelect("user.userWeight", "userWeight")
-      .innerJoinAndSelect("userWeight.user", "user")
       .where("user.id = :id", { id: id })
       .getOne();
 
