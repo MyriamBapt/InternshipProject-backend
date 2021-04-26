@@ -56,8 +56,8 @@ export class ProfessionalController {
 
     const {
       firstName, lastName, email, phone, city,
-      occupation, yearsActivity, specs,
-      firstMeetingPrice, followupMeetingPrice, avatarUrl
+      occupation, yearsActivity,
+      firstMeetingPrice, followupMeetingPrice, avatarUrl, description
     } = body;
 
     const newProf = new ProfessionnalDto();
@@ -68,10 +68,10 @@ export class ProfessionalController {
     newProf.city = city;
     newProf.occupation = occupation;
     newProf.yearsActivity = yearsActivity;
-    newProf.specs = specs;
     newProf.firstMeetingPrice = firstMeetingPrice;
     newProf.followupMeetingPrice = followupMeetingPrice;
     newProf.avatarUrl = avatarUrl;
+    newProf.description = description;
 
     const errors = await validate(newProf);
     if (errors.length > 0) {
@@ -80,6 +80,18 @@ export class ProfessionalController {
 
     return await this.professionalService.addNewProfessional(newProf);
  }
+
+ @Get('all_with_tag_language')
+  async getAllWithTagAndLanguage(): Promise<Professional[]>{
+    return await this.professionalService.findAllWithTagAndLanguage();
+ }
+
+  @Get('one_with_tag_language/:id')
+  async getOneWithTagAndLanguage(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }))
+        id: number
+        ): Promise<Professional>{
+    return await this.professionalService.findOneWithTagAndLanguage(id);
+  }
 
 }
 

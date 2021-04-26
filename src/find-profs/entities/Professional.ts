@@ -65,14 +65,6 @@ export class Professional {
   years_activity: number;
 
   @Column({
-    nullable: false,
-    type: "varchar",
-    array: true
-  })
-  @IsArray()
-  specs: string[];
-
-  @Column({
     type: "money",
     nullable: false,
   })

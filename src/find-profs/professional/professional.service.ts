@@ -149,10 +149,10 @@ export class ProfessionalService {
           city: professional.city,
           occupation: professional.occupation,
           years_activity: professional.yearsActivity,
-          specs: professional.specs,
           first_meeting_price: professional.firstMeetingPrice,
           followup_meeting_price: professional.followupMeetingPrice,
-          avatar_url: professional.avatarUrl
+          avatar_url: professional.avatarUrl,
+          description: professional.description
         });
 
     const errors =await validate(addedProf);
@@ -165,6 +165,42 @@ export class ProfessionalService {
 
     return await this.profRepo.save(addedProf);
   }
+
+  async findAllWithTagAndLanguage(): Promise<Professional[] | undefined>{
+    const allpro = await this.profRepo
+      .createQueryBuilder('professionals')
+      .leftJoinAndSelect("professionals.review", "review")
+      .leftJoinAndSelect("professionals.tag", "tag")
+      .leftJoinAndSelect("professionals.language", "language")
+      .getMany();
+
+    if (!allpro) {
+      throw new HttpException( {
+        status: HttpStatus.NOT_FOUND,
+        error: `Could not get professionals with tags and languages`
+      }, HttpStatus.NOT_FOUND);
+    }
+    return allpro;
+  }
+
+  async findOneWithTagAndLanguage(id: number): Promise<Professional | undefined>{
+    const prof = await this.profRepo
+      .createQueryBuilder('professionals')
+      .leftJoinAndSelect("professionals.review", "review")
+      .leftJoinAndSelect("professionals.tag", "tag")
+      .leftJoinAndSelect("professionals.language", "language")
+      .where("professionals.id = :id", { id: id })
+      .getOne();
+
+    if (!prof) {
+      throw new HttpException( {
+        status: HttpStatus.NOT_FOUND,
+        error: `Could not get this professional with tags and languages`
+      }, HttpStatus.NOT_FOUND);
+    }
+    return prof;
+  }
+
 
 }
 

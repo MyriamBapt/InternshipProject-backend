@@ -8,7 +8,6 @@ export class ProfessionnalDto {
   city: string;
   occupation: string;
   yearsActivity: number;
-  specs: string[];
   firstMeetingPrice: number;
   followupMeetingPrice: number;
   avatarUrl: string;
