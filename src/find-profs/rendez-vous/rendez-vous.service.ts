@@ -29,6 +29,25 @@ export class RendezVousService {
     return allRendezvous;
   }
 
+  async findAllByProfAndDate(profId: number, date_rdv: string): Promise<RendezVous[] | undefined> {
+    const allRendezvous = await this.rendRepo
+      .createQueryBuilder('rendezvous')
+      .innerJoinAndSelect("rendezvous.professional", "professional")
+      .where("professional.id = :id", { id: profId })
+      .andWhere("rendezvous.date_rdv = :date_rdv" , { date_rdv: date_rdv })
+      .getMany();
+
+    if (!allRendezvous) {
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        error: 'No rendez-vous found ',
+      }, HttpStatus.NOT_FOUND);
+    }
+
+    return allRendezvous;
+  }
+
+
 }
 
 

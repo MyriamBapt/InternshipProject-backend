@@ -16,4 +16,16 @@ export class RendezVousController {
     return await this.rendezvousService.findAllRendezVousByProfId(id);
   }
 
+
+  @Get('all_by_prof_date/:id/:date_rdv')
+  async getAllByProfAndDate(
+    @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }))
+      id: number,
+    @Param('date_rdv')
+      date_rdv: string,
+  ): Promise<RendezVous[]> {
+    return await this.rendezvousService.findAllByProfAndDate(id, date_rdv);
+  }
+
+
 }
