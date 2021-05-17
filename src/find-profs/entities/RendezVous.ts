@@ -24,6 +24,18 @@ export class RendezVous {
   @IsDate()
   date_hour: Date;
 
+  @Column({
+    type: "date",
+    nullable: true
+  })
+  date_rdv: string;
+
+  @Column({
+    type: "time with time zone",
+    nullable: true
+  })
+  time_rdv: string;
+
   @ManyToOne(
     () => User,
     (user) => user.rendezVous
