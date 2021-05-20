@@ -9,4 +9,6 @@ export class RendezVousDto {
   @Type(() => Date)
   @IsDate()
   date: Date;
+  date_rdv?: string;
+  time_rdv?: string;
 }
