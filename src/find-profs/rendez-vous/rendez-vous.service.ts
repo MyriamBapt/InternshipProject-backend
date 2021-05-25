@@ -47,6 +47,19 @@ export class RendezVousService {
     return allRendezvous;
   }
 
+  async findAllRendezVous(): Promise<RendezVous[] | undefined> {
+    const allRendezVous = await this.rendRepo.find();
+
+    if (!allRendezVous) {
+      throw new HttpException({
+        status: HttpStatus.NOT_FOUND,
+        error: 'There was a problem connecting to the database',
+      }, HttpStatus.NOT_FOUND);
+    }
+
+    return allRendezVous;
+  }
+
 
 }
 

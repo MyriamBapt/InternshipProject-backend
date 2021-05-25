@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, Param, ParseIntPipe } from "@nestjs/common";
+import { Controller, Get, HttpStatus, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { RendezVousService } from "./rendez-vous.service";
 import { RendezVous } from "../entities/RendezVous";
 
@@ -25,6 +25,11 @@ export class RendezVousController {
       date_rdv: string,
   ): Promise<RendezVous[]> {
     return await this.rendezvousService.findAllByProfAndDate(id, date_rdv);
+  }
+
+  @Get('all')
+  async getAllRendezvous(): Promise<RendezVous[]> {
+    return await this.rendezvousService.findAllRendezVous();
   }
 
 

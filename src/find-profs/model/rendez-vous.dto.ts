@@ -6,6 +6,7 @@ export class RendezVousDto {
   userId: number;
   profId: number;
   moreInfo: string;
+  duration: number;
   @Type(() => Date)
   @IsDate()
   date: Date;
