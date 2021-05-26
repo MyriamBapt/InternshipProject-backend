@@ -27,7 +27,7 @@ export class RendezVous {
   @IsDate()
   date_hour: Date;
 
-  /*@Column({
+  @Column({
     type: "date",
     nullable: true
   })
@@ -37,10 +37,10 @@ export class RendezVous {
     type: "time with time zone",
     nullable: true
   })
-  time_rdv: string;*/
+  time_rdv: string;
 
   @Column({
-    type: "number",
+    type: "int",
     nullable: false
   })
   @IsInt()
