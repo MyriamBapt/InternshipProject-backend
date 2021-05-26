@@ -2,6 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Review } from '../entities/Review';
 import { Repository } from "typeorm";
+import { ReviewsDto } from '../model/reviews.dto';
+import { validate } from 'class-validator';
 
 @Injectable()
 export class ReviewService {
@@ -62,4 +64,28 @@ export class ReviewService {
 
     return reviewsByPro;
   }
+
+  async addNewReview(newReview: ReviewsDto): Promise<Review> | undefined {
+    const addedReview = await this.reviewRepo
+      .create({
+        professional: newReview.prof,
+        user: newReview.user,
+        stars: newReview.stars,
+        review: newReview.review,
+        tag: newReview.tag,
+        date_hour: Date.now(),
+      })
+
+    const errors =await validate(addedReview)
+    if (errors.length > 0) {
+      throw new HttpException( {
+        status: HttpStatus.BAD_REQUEST,
+        error: errors[0].constraints,
+      }, HttpStatus.BAD_REQUEST);
+    }
+
+    return await this.reviewRepo.save(addedReview);
+  }
+
+
 }

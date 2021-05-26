@@ -1,8 +1,9 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Type } from "class-transformer";
 import { IsDate } from "class-validator";
 import { User } from "./User";
 import { Professional } from "./Professional";
+import { Tag } from './Tag';
 
 @Entity('reviews')
 export class Review {
@@ -41,5 +42,8 @@ export class Review {
     (professional) => professional.review
   )
   public professional: Professional;
+
+  @OneToOne(()=> Tag)
+  public tag: Tag;
 
 }
