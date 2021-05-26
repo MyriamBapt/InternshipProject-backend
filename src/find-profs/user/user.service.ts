@@ -2,6 +2,10 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/User';
+import { ReviewsDto } from '../model/reviews.dto';
+import { Review } from '../entities/Review';
+import { validate } from 'class-validator';
+import { UserDto } from '../model/user.dto';
 
 @Injectable()
 export class UserService {
@@ -70,6 +74,9 @@ export class UserService {
     return userWeightById;
   }
 
-
+  async updateUser(user: User): Promise<User | undefined > {
+    return await this.userRepo.save(user);
+    //need to be finished and tested
+  }
 
 }

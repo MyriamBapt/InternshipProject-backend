@@ -1,6 +1,8 @@
-import { Controller, Get, HttpStatus, Param, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '../entities/User';
+import { UserDto } from '../model/user.dto';
+import { validate } from 'class-validator';
 
 @Controller('user')
 export class UserController {
@@ -34,5 +36,12 @@ export class UserController {
     return await this.userService.findUserWeightById(id);
   }
 
+  @Post ('update_user/:id')
+  async updateUserById
+  (@Body() body): Promise<User>{
+    const { user } = body;
+    return await this.userService.updateUser(user)
+    //need to be finished and tested
+  }
 
 }
