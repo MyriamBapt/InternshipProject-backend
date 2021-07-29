@@ -85,8 +85,6 @@ select * from reviews;
 update reviews set review = 'Its very nice to find my form again'
 where id = 5;
 
-
-
 select r.id, r.date_hour, r.more_info,
        concat_ws(' ', u.first_name, u.last_name) as "user full name",
        concat_ws(' ', p.first_name, p.last_name) as "prof full name"

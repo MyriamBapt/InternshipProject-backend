@@ -59,6 +59,7 @@ export class ProfessionalController {
       occupation, yearsActivity,
       firstMeetingPrice, followupMeetingPrice, avatarUrl, description
     } = body;
+    console.log(`FIRST NAME: ${firstName}`);
 
     const newProf = new ProfessionnalDto();
     newProf.firstName = firstName;

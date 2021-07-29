@@ -157,6 +157,7 @@ export class ProfessionalService {
 
     const errors =await validate(addedProf);
     if (errors.length > 0) {
+      //console.log(errors);
       throw new HttpException( {
         status: HttpStatus.BAD_REQUEST,
         error: errors[0].constraints,

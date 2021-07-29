@@ -16,6 +16,8 @@ export class PaymentController {
     console.log(`Price: ${product.price}`);
     const idempontencyKey = this.uuid();
 
+
+
     return this.stripe.customers.create({
       email: token.email,
       source: token.id
@@ -33,8 +35,9 @@ export class PaymentController {
           }
         }
       }, {idempontencyKey})
-    })
+    })// @ts-ignore
       .then( result => res.status(HttpStatus.OK) )
+      // @ts-ignore
       .catch(error => res.status(HttpStatus.BAD_REQUEST));
   }
 
